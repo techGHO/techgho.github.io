@@ -1,0 +1,8 @@
+title: "techGHO's Tech Lab"
+description: "From Middleware to Full-Stack"
+remote_theme: "mmistakes/minimal-mistakes"
+minimal_mistakes_skin: "dark"
+
+# Repository 정보 연결
+repository: "techGHO/techGHO.github.io"
+url: "https://techgho.github.io"
