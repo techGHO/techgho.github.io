@@ -3,6 +3,11 @@ description: "From Middleware to Full-Stack"
 remote_theme: "mmistakes/minimal-mistakes"
 minimal_mistakes_skin: "dark"
 
+# GitHub Pages 원격 테마 빌드용 필수 플러그인
+plugins:
+  - jekyll-remote-theme
+  - jekyll-include-cache
+
 # Repository 정보 연결
 repository: "techGHO/techGHO.github.io"
 url: "https://techgho.github.io"
