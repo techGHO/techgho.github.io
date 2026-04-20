@@ -11,6 +11,10 @@ tags:
   - Troubleshooting
 toc: true
 toc_sticky: true
+# --- 이 아래 부분을 추가해 보세요 ---
+header:
+  overlay_image: https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80
+  overlay_filter: 0.5 # 이미지 어둡게 (0.0 ~ 1.0)
 ---
 
 ## 1. 개요
