@@ -1,4 +1,4 @@
-----
+---
 layout: single
 author_profile: true
 title: "WebLogic 14cR1(14.1.1) 완전 자동화 설치 및 최적화 가이드 (Oracle Linux / RHEL 8 기준)"
