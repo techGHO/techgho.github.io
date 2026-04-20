@@ -16,7 +16,7 @@ toc_sticky: true
 header:
   overlay_image: https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80
   overlay_filter: 0.5
-show_overlay_excerpt: false
+  show_overlay_excerpt: false
 excerpt: "GUI가 지원되지 않는 Oracle Linux 8 환경에서 WebLogic 14c를 완벽하게 자동화 설치하고 /dev/urandom 튜닝으로 기동 속도를 최적화하는 현업 엔지니어의 실무 가이드입니다."
 ---
 
