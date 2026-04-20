@@ -1,6 +1,6 @@
 ---
 title: "WebLogic 14cR1(14.1.1) 완전 자동화 설치 및 최적화 가이드 (Oracle Linux / RHEL 8 기준)"
-date: 2026-04-20 14:00:00 +0900
+date: 2026-04-20 13:00:00 +0900
 categories:
   - Middleware
 tags:
