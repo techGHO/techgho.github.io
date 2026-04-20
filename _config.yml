@@ -1,7 +1,7 @@
 title: "techGHO's Tech Lab"
 description: "From Middleware to Full-Stack"
 remote_theme: "mmistakes/minimal-mistakes"
-minimal_mistakes_skin: "dark"
+minimal_mistakes_skin: "air"
 
 # GitHub Pages 원격 테마 빌드용 필수 플러그인
 plugins:
@@ -11,3 +11,28 @@ plugins:
 # Repository 정보 연결
 repository: "techGHO/techGHO.github.io"
 url: "https://techgho.github.io"
+
+# 좌측 프로필(사이드바) 활성화
+author:
+  name     : "techGHO"
+  avatar   : "/assets/images/profile.png" # 나중에 이 경로에 본인 사진을 올리면 적용됩니다.
+  bio      : "System & Cloud Infrastructure Engineer"
+  location : "Seoul, Korea"
+  links:
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/techGHO"
+
+# 글(Post) 레이아웃 기본값 중앙 집중화
+defaults:
+  # _posts 폴더 안의 모든 글에 자동으로 적용되는 기본 설정
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: single          # 화면을 중앙으로 모아주는 깔끔한 레이아웃
+      author_profile: true    # 좌측에 프로필 사이드바 표시
+      read_time: true         # 글 읽는 데 걸리는 시간 표시 (블로그 스러움)
+      comments: true          # 하단 댓글창 활성화 준비
+      share: true             # 하단 공유 버튼 활성화
+      related: true           # 글 하단에 관련 포스트 띄우기
