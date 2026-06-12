@@ -125,7 +125,7 @@ layout: archive
   {% endif %}
 
   <div class="tg-post-list">
-    {% for post in posts limit:10 %}
+    {% for post in posts %}
     <article class="tg-post-card">
       <div class="tg-post-card__left">
         <div class="tg-post-card__meta">
@@ -150,12 +150,23 @@ layout: archive
   </div>
 
   {% if paginator.total_pages > 1 %}
-  <nav class="pagination" aria-label="Pagination" style="margin-top:1.8rem;display:flex;gap:.5rem;">
+  <nav class="tg-pagination" aria-label="페이지 이동">
     {% if paginator.previous_page %}
-      <a href="{{ paginator.previous_page_path | relative_url }}" class="pagination--pager">← Newer</a>
+      <a class="tg-page-btn" href="{{ paginator.previous_page_path | relative_url }}">← 이전</a>
+    {% else %}
+      <span class="tg-page-btn tg-page-btn--disabled">← 이전</span>
     {% endif %}
+
+    <span class="tg-page-info">
+      <span class="tg-page-info__cur">{{ paginator.page }}</span>
+      <span class="tg-page-info__sep">/</span>
+      <span class="tg-page-info__total">{{ paginator.total_pages }}</span>
+    </span>
+
     {% if paginator.next_page %}
-      <a href="{{ paginator.next_page_path | relative_url }}" class="pagination--pager">Older →</a>
+      <a class="tg-page-btn" href="{{ paginator.next_page_path | relative_url }}">다음 →</a>
+    {% else %}
+      <span class="tg-page-btn tg-page-btn--disabled">다음 →</span>
     {% endif %}
   </nav>
   {% endif %}
