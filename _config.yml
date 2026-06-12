@@ -1,7 +1,7 @@
 title: "techGHO's Tech Lab"
-description: "From Middleware to Full-Stack"
+description: "SRE · Middleware · Cloud Infrastructure"
 remote_theme: "mmistakes/minimal-mistakes"
-minimal_mistakes_skin: "air"
+minimal_mistakes_skin: "dark"
 
 # GitHub Pages 원격 테마 빌드용 필수 플러그인
 plugins:
@@ -15,8 +15,8 @@ url: "https://techgho.github.io"
 # 좌측 프로필(사이드바) 활성화
 author:
   name     : "techGHO"
-  avatar   : "/assets/images/profile.png" # 나중에 이 경로에 본인 사진을 올리면 적용됩니다.
-  bio      : "System & Cloud Infrastructure Engineer"
+  avatar   : "/assets/images/avatar.png"
+  bio      : "SRE / 미들웨어 전문가<br>WebLogic · JBoss · Tomcat · OCI · AWS<br>현업 인프라 엔지니어의 실전 기술 노트"
   location : "Seoul, Korea"
   links:
     - label: "GitHub"
