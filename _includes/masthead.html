@@ -3,92 +3,114 @@
 <div class="masthead">
   <div class="masthead__inner-wrap">
 
-    <!-- 왼쪽: 사이트 타이틀 -->
-    <div class="masthead-brand">
-      {% unless logo_path == empty %}
-        <a class="site-logo" href="{{ '/' | relative_url }}">
-          <img src="{{ site.logo }}" alt="{{ site.masthead_title | default: site.title }}">
-        </a>
-      {% endunless %}
-      <a class="site-title" href="{{ '/' | relative_url }}">
-        {{ site.masthead_title | default: site.title }}{% if site.subtitle %}<span class="site-subtitle">{{ site.subtitle }}</span>{% endif %}
-      </a>
-    </div>
+    <a class="site-title" href="{{ '/' | relative_url }}">
+      {{ site.masthead_title | default: site.title }}
+    </a>
 
-    <!-- 가운데: 네비게이션 -->
-    <ul class="custom-nav" role="navigation" aria-label="Primary navigation">
-      {%- for link in site.data.navigation.main -%}
-        <li class="custom-nav__item{% if link.children %} has-dropdown{% endif %}">
-          {% if link.children %}
-            <span class="custom-nav__label" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
-              {{ link.title }}<span class="nav-arrow">&#9660;</span>
-            </span>
-            <ul class="dropdown-menu" role="menu">
-              {% for child in link.children %}
-                <li role="menuitem">
-                  <a href="{{ child.url | relative_url }}">{{ child.title }}</a>
-                </li>
-              {% endfor %}
-            </ul>
-          {% else %}
-            <a class="custom-nav__link" href="{{ link.url | relative_url }}"{% if link.description %} title="{{ link.description }}"{% endif %}>
-              {{ link.title }}
-            </a>
-          {% endif %}
-        </li>
-      {%- endfor -%}
-    </ul>
-
-    <!-- 오른쪽: 균형용 spacer (센터 정렬 유지) -->
-    <div class="masthead-spacer" aria-hidden="true"></div>
+    <nav class="site-nav" aria-label="Main navigation">
+      <ul class="nav-list">
+        {%- for link in site.data.navigation.main -%}
+          <li class="nav-item{% if link.children %} has-dropdown{% endif %}">
+            {% if link.children %}
+              <button class="nav-btn" type="button" aria-haspopup="true" aria-expanded="false">
+                {{ link.title }}<span class="nav-caret">&#9660;</span>
+              </button>
+              <ul class="nav-dropdown" role="menu">
+                {% for child in link.children %}
+                  <li role="menuitem"><a href="{{ child.url | relative_url }}">{{ child.title }}</a></li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <a class="nav-link" href="{{ link.url | relative_url }}"{% if link.description %} title="{{ link.description }}"{% endif %}>{{ link.title }}</a>
+            {% endif %}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
 
   </div>
 </div>
 
 <script>
 (function () {
+  var hoverTimer = null;
+
   function init() {
-    var labels = document.querySelectorAll('.has-dropdown .custom-nav__label');
+    var items = document.querySelectorAll('.nav-item.has-dropdown');
 
-    function closeAll() {
-      document.querySelectorAll('.has-dropdown.is-open').forEach(function (el) {
-        el.classList.remove('is-open');
-        var btn = el.querySelector('.custom-nav__label');
-        if (btn) btn.setAttribute('aria-expanded', 'false');
-      });
-    }
+    items.forEach(function (item) {
+      var btn = item.querySelector('.nav-btn');
+      var menu = item.querySelector('.nav-dropdown');
 
-    labels.forEach(function (label) {
-      label.addEventListener('click', function (e) {
-        e.stopPropagation();
-        var item = label.closest('.has-dropdown');
-        var wasOpen = item.classList.contains('is-open');
-        closeAll();
-        if (!wasOpen) {
-          item.classList.add('is-open');
-          label.setAttribute('aria-expanded', 'true');
-        }
+      /* ── hover open ── */
+      item.addEventListener('mouseenter', function () {
+        clearTimeout(hoverTimer);
+        openItem(item);
       });
 
-      /* 키보드 접근성 */
-      label.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          label.click();
-        }
-        if (e.key === 'Escape') closeAll();
+      /* ── hover leave: small grace period so mouse can reach dropdown ── */
+      item.addEventListener('mouseleave', function () {
+        if (item.dataset.locked) return;
+        hoverTimer = setTimeout(function () { closeItem(item); }, 180);
       });
+
+      /* ── dropdown re-enter: cancel close timer ── */
+      if (menu) {
+        menu.addEventListener('mouseenter', function () {
+          clearTimeout(hoverTimer);
+        });
+        menu.addEventListener('mouseleave', function () {
+          if (item.dataset.locked) return;
+          hoverTimer = setTimeout(function () { closeItem(item); }, 180);
+        });
+      }
+
+      /* ── click: lock open (stays until outside click) ── */
+      if (btn) {
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          if (item.dataset.locked) {
+            delete item.dataset.locked;
+            closeItem(item);
+          } else {
+            closeAll();
+            openItem(item);
+            item.dataset.locked = '1';
+          }
+        });
+      }
+
+      /* ── prevent dropdown click from bubbling to document ── */
+      if (menu) {
+        menu.addEventListener('click', function (e) { e.stopPropagation(); });
+      }
     });
 
-    /* 드롭다운 내부 클릭은 닫히지 않게 */
-    document.querySelectorAll('.dropdown-menu').forEach(function (menu) {
-      menu.addEventListener('click', function (e) {
-        e.stopPropagation();
-      });
-    });
-
-    /* 외부 클릭 시 닫기 */
+    /* close on outside click */
     document.addEventListener('click', closeAll);
+
+    /* close on Escape */
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeAll();
+    });
+  }
+
+  function openItem(item) {
+    item.classList.add('is-open');
+    var btn = item.querySelector('.nav-btn');
+    if (btn) btn.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeItem(item) {
+    item.classList.remove('is-open');
+    delete item.dataset.locked;
+    var btn = item.querySelector('.nav-btn');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+  }
+
+  function closeAll() {
+    clearTimeout(hoverTimer);
+    document.querySelectorAll('.nav-item.has-dropdown').forEach(closeItem);
   }
 
   if (document.readyState === 'loading') {
