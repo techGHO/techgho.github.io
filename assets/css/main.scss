@@ -1281,6 +1281,23 @@ body {
 .tg-page-info__sep  { color: var(--muted); }
 .tg-page-info__total { color: var(--muted); }
 
+/* ── Async post-list transition ───────────────── */
+.tg-posts--out {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+@keyframes tg-slide-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+.tg-posts--in {
+  animation: tg-slide-in 0.32s ease forwards;
+}
+
 /* ── Sidebar Tech Stack Badges ────────────────── */
 .sidebar-stack {
   margin-top: 1.4rem;

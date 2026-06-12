@@ -172,3 +172,104 @@ layout: archive
   {% endif %}
 
 </div>
+
+<script>
+/* ─── Async pagination for Recent Posts ─────────────────────
+   Fetches /page2/, /page3/ … and swaps only .tg-post-list
+   + .tg-pagination without a full page reload.
+────────────────────────────────────────────────────────── */
+(function () {
+  'use strict';
+
+  function init() {
+    var recent = document.querySelector('.tg-recent');
+    if (!recent) return;
+
+    /* Event delegation: catches clicks even after DOM swap */
+    recent.addEventListener('click', function (e) {
+      var btn = e.target.closest('a.tg-page-btn');
+      if (!btn) return;
+      e.preventDefault();
+      loadPage(btn.href, recent);
+    });
+
+    /* Browser ← / → buttons */
+    window.addEventListener('popstate', function () {
+      var r = document.querySelector('.tg-recent');
+      if (r) loadPage(location.href, r, true);
+    });
+  }
+
+  function loadPage(url, recent, isPopState) {
+    var postList = recent.querySelector('.tg-post-list');
+    var paginNav = recent.querySelector('.tg-pagination');
+    if (!postList) return;
+
+    var t0 = Date.now();
+
+    /* 1. Fade out */
+    postList.classList.add('tg-posts--out');
+
+    fetch(url)
+      .then(function (res) {
+        if (!res.ok) throw new Error(res.status);
+        return res.text();
+      })
+      .then(function (html) {
+        var doc     = new DOMParser().parseFromString(html, 'text/html');
+        var newList = doc.querySelector('.tg-post-list');
+        var newNav  = doc.querySelector('.tg-pagination');
+
+        if (!newList) { fallback(url, postList); return; }
+
+        /* Wait at least 220ms so fade-out is visible */
+        var wait = Math.max(0, 220 - (Date.now() - t0));
+
+        setTimeout(function () {
+          /* 2. Swap content */
+          postList.innerHTML = newList.innerHTML;
+
+          if (paginNav && newNav) {
+            paginNav.innerHTML = newNav.innerHTML;
+          } else if (paginNav) {
+            paginNav.style.visibility = 'hidden';
+          }
+
+          /* 3. Fade in */
+          postList.classList.remove('tg-posts--out');
+          postList.classList.add('tg-posts--in');
+          setTimeout(function () {
+            postList.classList.remove('tg-posts--in');
+          }, 340);
+
+          /* 4. Push URL (skip on popstate) */
+          if (!isPopState && location.href !== url) {
+            history.pushState(null, '', url);
+          }
+
+          /* 5. Scroll: bring Recent Posts section into view
+                if it is already off-screen above the fold  */
+          var rect = recent.getBoundingClientRect();
+          if (rect.top < 60) {
+            window.scrollTo({
+              top: recent.getBoundingClientRect().top + window.pageYOffset - 90,
+              behavior: 'smooth'
+            });
+          }
+        }, wait);
+      })
+      .catch(function () { fallback(url, postList); });
+  }
+
+  function fallback(url, postList) {
+    postList.classList.remove('tg-posts--out');
+    window.location.href = url;
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
