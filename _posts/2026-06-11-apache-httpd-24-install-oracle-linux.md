@@ -2,7 +2,7 @@
 layout: single
 author_profile: true
 title: "Apache HTTPD 2.4 설치 및 기본 설정 가이드 (Oracle Linux 8)"
-date: 2026-06-15 10:00:00 +0900
+date: 2026-06-11 12:00:00 +0900
 categories:
   - Middleware
 tags:

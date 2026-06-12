@@ -2,7 +2,7 @@
 layout: single
 author_profile: true
 title: "Oracle HTTP Server (OHS) 12c 설치 가이드 (Oracle Linux 8 기준)"
-date: 2026-06-16 10:00:00 +0900
+date: 2026-06-11 13:00:00 +0900
 categories:
   - Middleware
 tags:

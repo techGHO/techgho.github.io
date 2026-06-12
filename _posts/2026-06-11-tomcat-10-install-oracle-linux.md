@@ -2,7 +2,7 @@
 layout: single
 author_profile: true
 title: "Apache Tomcat 10 설치 및 systemd 서비스 등록 가이드 (Oracle Linux 8)"
-date: 2026-06-14 10:00:00 +0900
+date: 2026-06-11 11:00:00 +0900
 categories:
   - Middleware
 tags:

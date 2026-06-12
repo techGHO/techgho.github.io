@@ -2,7 +2,7 @@
 layout: single
 author_profile: true
 title: "JBoss EAP 7.4 완전 설치 가이드 (Oracle Linux 8 / RHEL 8 기준)"
-date: 2026-06-13 10:00:00 +0900
+date: 2026-06-11 10:00:00 +0900
 categories:
   - Middleware
 tags:
