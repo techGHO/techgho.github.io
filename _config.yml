@@ -1,7 +1,8 @@
 title: "techGHO's Tech Lab"
 description: "SRE · Middleware · Cloud Infrastructure"
 remote_theme: "mmistakes/minimal-mistakes"
-minimal_mistakes_skin: "dark"
+minimal_mistakes_skin: "default"
+permalink: /:categories/:title/
 
 include:
   - _pages
