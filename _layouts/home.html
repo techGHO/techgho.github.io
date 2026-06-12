@@ -1,0 +1,163 @@
+---
+layout: archive
+---
+
+{{ content }}
+
+<!-- ════════════════════════════════════════════
+     HERO BANNER
+════════════════════════════════════════════ -->
+<div class="tg-hero-banner" role="banner">
+
+  <div class="tg-hero-banner__content">
+    <div class="tg-hero-banner__badge">
+      <span class="tg-hero-badge-dot"></span>
+      SRE &middot; Middleware &middot; Cloud
+    </div>
+    <p class="tg-hero-banner__tagline">
+      원인 미상의 장애 분석부터 인프라 자동화까지,<br>
+      <strong>실전 미들웨어 엔지니어의 트러블슈팅 노트</strong>
+    </p>
+    <div class="tg-hero-banner__stats">
+      <div class="tg-stat">
+        <span class="tg-stat__num">WebLogic · JBoss</span>
+        <span class="tg-stat__label">WAS</span>
+      </div>
+      <span class="tg-stat-divider" aria-hidden="true"></span>
+      <div class="tg-stat">
+        <span class="tg-stat__num">Tomcat · Apache</span>
+        <span class="tg-stat__label">Web / WAS</span>
+      </div>
+      <span class="tg-stat-divider" aria-hidden="true"></span>
+      <div class="tg-stat">
+        <span class="tg-stat__num">OCI · AWS</span>
+        <span class="tg-stat__label">Cloud</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tg-pinned-row">
+    <div class="tg-pinned-label">📌 Pinned Posts</div>
+    <div class="tg-pinned-cards">
+      <a class="tg-pcard" href="/middleware/weblogic-14c-silent-install-oracle-linux/">
+        <span class="tg-pcard__badge tg-pcard__badge--middleware">Middleware</span>
+        <div class="tg-pcard__title">WebLogic 14c Silent 설치 완전 가이드</div>
+        <div class="tg-pcard__desc">Oracle Linux 8 환경에서 응답 파일 기반 무인 설치 — 실무 검증된 절차서</div>
+        <div class="tg-pcard__footer">
+          <span class="tg-pcard__tag">WebLogic</span>
+          <span class="tg-pcard__tag">Oracle Linux</span>
+          <span class="tg-pcard__arrow">→</span>
+        </div>
+      </a>
+      <a class="tg-pcard" href="/middleware/weblogic-domain-creation-admin-server/">
+        <span class="tg-pcard__badge tg-pcard__badge--sre">SRE</span>
+        <div class="tg-pcard__title">WebLogic 도메인 생성 &amp; Admin Server 구성</div>
+        <div class="tg-pcard__desc">도메인 설계부터 Admin Server 기동, 포트 설정까지 운영 환경 완전 분석</div>
+        <div class="tg-pcard__footer">
+          <span class="tg-pcard__tag">WebLogic</span>
+          <span class="tg-pcard__tag">Domain</span>
+          <span class="tg-pcard__arrow">→</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════════════════════════════════
+     CURATION CARDS
+════════════════════════════════════════════ -->
+<div class="tg-curate">
+  <div class="tg-section-head">
+    <span class="tg-section-head__line"></span>
+    탐색하기
+    <span class="tg-section-head__sub">Browse by topic</span>
+  </div>
+  <div class="tg-curate-grid">
+
+    <a class="tg-ccard tg-ccard--fire" href="/middleware/">
+      <span class="tg-ccard__icon">🔥</span>
+      <div class="tg-ccard__title">Deep Dive Troubleshooting</div>
+      <div class="tg-ccard__desc">Heap Dump, 스레드 덤프, GC 분석부터 운영 장애 대응 및 성능 튜닝까지</div>
+      <div class="tg-ccard__footer">
+        <span class="tg-ccard__count">WebLogic · JBoss · Tomcat</span>
+        <span class="tg-ccard__arrow">→</span>
+      </div>
+    </a>
+
+    <a class="tg-ccard tg-ccard--tool" href="/middleware/">
+      <span class="tg-ccard__icon">🛠️</span>
+      <div class="tg-ccard__title">Automation &amp; Scripting</div>
+      <div class="tg-ccard__desc">WLST, Shell, Ansible 기반 인프라 자동화 및 CI/CD 파이프라인 구축</div>
+      <div class="tg-ccard__footer">
+        <span class="tg-ccard__count">Python · Shell · Ansible</span>
+        <span class="tg-ccard__arrow">→</span>
+      </div>
+    </a>
+
+    <a class="tg-ccard tg-ccard--cloud" href="/oci/">
+      <span class="tg-ccard__icon">☁️</span>
+      <div class="tg-ccard__title">Cloud Architecture</div>
+      <div class="tg-ccard__desc">OCI · AWS 위에 미들웨어 스택을 올리는 엔터프라이즈 아키텍처 설계</div>
+      <div class="tg-ccard__footer">
+        <span class="tg-ccard__count">OCI · AWS · IaC</span>
+        <span class="tg-ccard__arrow">→</span>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     RECENT POSTS
+════════════════════════════════════════════ -->
+<div class="tg-recent">
+  <div class="tg-section-head">
+    <span class="tg-section-head__line"></span>
+    Recent Posts
+    <span class="tg-section-head__sub">최신 글 모아보기</span>
+  </div>
+
+  {% if paginator %}
+    {% assign posts = paginator.posts %}
+  {% else %}
+    {% assign posts = site.posts %}
+  {% endif %}
+
+  <div class="tg-post-list">
+    {% for post in posts limit:10 %}
+    <article class="tg-post-card">
+      <div class="tg-post-card__left">
+        <div class="tg-post-card__meta">
+          {% if post.categories.first %}
+          <span class="tg-post-card__cat">{{ post.categories.first }}</span>
+          {% endif %}
+          <time class="tg-post-card__date">{{ post.date | date: "%Y.%m.%d" }}</time>
+        </div>
+        <a class="tg-post-card__title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        {% if post.excerpt %}
+        <p class="tg-post-card__excerpt">{{ post.excerpt | strip_html | truncate: 100 }}</p>
+        {% endif %}
+        <div class="tg-post-card__tags">
+          {% for tag in post.tags limit:3 %}
+          <span class="tg-post-card__tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      <span class="tg-post-card__arrow" aria-hidden="true">→</span>
+    </article>
+    {% endfor %}
+  </div>
+
+  {% if paginator.total_pages > 1 %}
+  <nav class="pagination" aria-label="Pagination" style="margin-top:1.8rem;display:flex;gap:.5rem;">
+    {% if paginator.previous_page %}
+      <a href="{{ paginator.previous_page_path | relative_url }}" class="pagination--pager">← Newer</a>
+    {% endif %}
+    {% if paginator.next_page %}
+      <a href="{{ paginator.next_page_path | relative_url }}" class="pagination--pager">Older →</a>
+    {% endif %}
+  </nav>
+  {% endif %}
+
+</div>
