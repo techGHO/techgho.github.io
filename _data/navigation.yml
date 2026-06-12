@@ -1,0 +1,21 @@
+main:
+  - title: "WEB/WAS"
+    url: "#"
+    children:
+      - title: "WebLogic"
+        url: /weblogic/
+      - title: "JBoss"
+        url: /jboss/
+      - title: "Tomcat"
+        url: /tomcat/
+      - title: "Apache"
+        url: /apache/
+      - title: "OHS"
+        url: /ohs/
+  - title: "CLOUD"
+    url: "#"
+    children:
+      - title: "OCI"
+        url: /oci/
+      - title: "AWS"
+        url: /aws/

@@ -3,6 +3,9 @@ description: "SRE · Middleware · Cloud Infrastructure"
 remote_theme: "mmistakes/minimal-mistakes"
 minimal_mistakes_skin: "dark"
 
+include:
+  - _pages
+
 # GitHub Pages 원격 테마 빌드용 필수 플러그인
 plugins:
   - jekyll-remote-theme
