@@ -2,38 +2,99 @@
 
 <div class="masthead">
   <div class="masthead__inner-wrap">
-    <div class="masthead__menu">
-      <nav id="site-nav" class="greedy-nav">
-        {% unless logo_path == empty %}
-          <a class="site-logo" href="{{ '/' | relative_url }}">
-            <img src="{{ site.logo }}" alt="{{ site.masthead_title | default: site.title }}">
-          </a>
-        {% endunless %}
-        <a class="site-title" href="{{ '/' | relative_url }}">
-          {{ site.masthead_title | default: site.title }}{% if site.subtitle %}<span class="site-subtitle">{{ site.subtitle }}</span>{% endif %}
+
+    <!-- 왼쪽: 사이트 타이틀 -->
+    <div class="masthead-brand">
+      {% unless logo_path == empty %}
+        <a class="site-logo" href="{{ '/' | relative_url }}">
+          <img src="{{ site.logo }}" alt="{{ site.masthead_title | default: site.title }}">
         </a>
-        <ul class="visible-links">
-          {%- for link in site.data.navigation.main -%}
-            <li class="masthead__menu-item{% if link.children %} has-dropdown{% endif %}">
-              <a href="{{ link.url | relative_url }}"{% if link.description %} title="{{ link.description }}"{% endif %}>
-                {{- link.title -}}{% if link.children %}<span class="nav-arrow">&#9660;</span>{% endif %}
-              </a>
-              {% if link.children %}
-                <ul class="dropdown-menu" role="menu">
-                  {% for child in link.children %}
-                    <li role="menuitem"><a href="{{ child.url | relative_url }}">{{ child.title }}</a></li>
-                  {% endfor %}
-                </ul>
-              {% endif %}
-            </li>
-          {%- endfor -%}
-        </ul>
-        <button class="greedy-nav__toggle hidden" type="button">
-          <span class="visually-hidden">{{ site.data.ui-text[site.locale].menu_label | default: "Toggle menu" }}</span>
-          <div class="navicon"></div>
-        </button>
-        <ul class="hidden-links hidden"></ul>
-      </nav>
+      {% endunless %}
+      <a class="site-title" href="{{ '/' | relative_url }}">
+        {{ site.masthead_title | default: site.title }}{% if site.subtitle %}<span class="site-subtitle">{{ site.subtitle }}</span>{% endif %}
+      </a>
     </div>
+
+    <!-- 가운데: 네비게이션 -->
+    <ul class="custom-nav" role="navigation" aria-label="Primary navigation">
+      {%- for link in site.data.navigation.main -%}
+        <li class="custom-nav__item{% if link.children %} has-dropdown{% endif %}">
+          {% if link.children %}
+            <span class="custom-nav__label" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
+              {{ link.title }}<span class="nav-arrow">&#9660;</span>
+            </span>
+            <ul class="dropdown-menu" role="menu">
+              {% for child in link.children %}
+                <li role="menuitem">
+                  <a href="{{ child.url | relative_url }}">{{ child.title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <a class="custom-nav__link" href="{{ link.url | relative_url }}"{% if link.description %} title="{{ link.description }}"{% endif %}>
+              {{ link.title }}
+            </a>
+          {% endif %}
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    <!-- 오른쪽: 균형용 spacer (센터 정렬 유지) -->
+    <div class="masthead-spacer" aria-hidden="true"></div>
+
   </div>
 </div>
+
+<script>
+(function () {
+  function init() {
+    var labels = document.querySelectorAll('.has-dropdown .custom-nav__label');
+
+    function closeAll() {
+      document.querySelectorAll('.has-dropdown.is-open').forEach(function (el) {
+        el.classList.remove('is-open');
+        var btn = el.querySelector('.custom-nav__label');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    labels.forEach(function (label) {
+      label.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var item = label.closest('.has-dropdown');
+        var wasOpen = item.classList.contains('is-open');
+        closeAll();
+        if (!wasOpen) {
+          item.classList.add('is-open');
+          label.setAttribute('aria-expanded', 'true');
+        }
+      });
+
+      /* 키보드 접근성 */
+      label.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          label.click();
+        }
+        if (e.key === 'Escape') closeAll();
+      });
+    });
+
+    /* 드롭다운 내부 클릭은 닫히지 않게 */
+    document.querySelectorAll('.dropdown-menu').forEach(function (menu) {
+      menu.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+    });
+
+    /* 외부 클릭 시 닫기 */
+    document.addEventListener('click', closeAll);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
