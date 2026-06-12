@@ -656,7 +656,10 @@ body {
   margin-left: 1px;
 }
 
-.has-dropdown.is-open .nav-caret {
+/* CSS hover handles open state — physically impossible for two items
+   to be :hovered at once, so the "both open" race condition is gone */
+.nav-item.has-dropdown:hover .nav-caret,
+.nav-item.has-dropdown.is-locked .nav-caret {
   transform: rotate(180deg);
 }
 
@@ -721,9 +724,18 @@ body {
 .nav-dropdown li:first-child a { border-radius: var(--radius) var(--radius) 0 0; }
 .nav-dropdown li:last-child  a { border-radius: 0 0 var(--radius) var(--radius); }
 
-.has-dropdown.is-open .nav-dropdown {
+/* Show on hover (CSS) OR when click-locked (JS adds .is-locked) */
+.nav-item.has-dropdown:hover .nav-dropdown,
+.nav-item.has-dropdown.is-locked .nav-dropdown {
   display: block;
-  animation: dropIn 0.12s ease forwards;
+  animation: dropIn 0.12s ease;
+}
+
+/* Highlight button when active */
+.nav-item.has-dropdown:hover .nav-btn,
+.nav-item.has-dropdown.is-locked .nav-btn {
+  color: var(--primary);
+  background: rgba(88,166,255,0.08);
 }
 
 @keyframes dropIn {

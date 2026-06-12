@@ -32,85 +32,47 @@
 </div>
 
 <script>
+/*
+ * Hover is handled entirely by CSS :hover — no timers, no race conditions.
+ * JS only adds .is-locked on click so the dropdown stays open after
+ * the mouse leaves (e.g. user clicks to "pin" the menu open).
+ */
 (function () {
-  var hoverTimer = null;
-
   function init() {
     var items = document.querySelectorAll('.nav-item.has-dropdown');
 
     items.forEach(function (item) {
       var btn = item.querySelector('.nav-btn');
-      var menu = item.querySelector('.nav-dropdown');
+      if (!btn) return;
 
-      /* ── hover open ── */
-      item.addEventListener('mouseenter', function () {
-        clearTimeout(hoverTimer);
-        openItem(item);
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var wasLocked = !!item.dataset.locked;
+        clearAllLocks();
+        if (!wasLocked) {
+          item.dataset.locked = '1';
+          item.classList.add('is-locked');
+          btn.setAttribute('aria-expanded', 'true');
+        }
       });
-
-      /* ── hover leave: small grace period so mouse can reach dropdown ── */
-      item.addEventListener('mouseleave', function () {
-        if (item.dataset.locked) return;
-        hoverTimer = setTimeout(function () { closeItem(item); }, 180);
-      });
-
-      /* ── dropdown re-enter: cancel close timer ── */
-      if (menu) {
-        menu.addEventListener('mouseenter', function () {
-          clearTimeout(hoverTimer);
-        });
-        menu.addEventListener('mouseleave', function () {
-          if (item.dataset.locked) return;
-          hoverTimer = setTimeout(function () { closeItem(item); }, 180);
-        });
-      }
-
-      /* ── click: lock open (stays until outside click) ── */
-      if (btn) {
-        btn.addEventListener('click', function (e) {
-          e.stopPropagation();
-          if (item.dataset.locked) {
-            delete item.dataset.locked;
-            closeItem(item);
-          } else {
-            closeAll();
-            openItem(item);
-            item.dataset.locked = '1';
-          }
-        });
-      }
-
-      /* ── prevent dropdown click from bubbling to document ── */
-      if (menu) {
-        menu.addEventListener('click', function (e) { e.stopPropagation(); });
-      }
     });
 
-    /* close on outside click */
-    document.addEventListener('click', closeAll);
+    /* click outside → release lock */
+    document.addEventListener('click', clearAllLocks);
 
-    /* close on Escape */
+    /* Escape key → release lock */
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') closeAll();
+      if (e.key === 'Escape') clearAllLocks();
     });
   }
 
-  function openItem(item) {
-    item.classList.add('is-open');
-    var btn = item.querySelector('.nav-btn');
-    if (btn) btn.setAttribute('aria-expanded', 'true');
-  }
-
-  function closeItem(item) {
-    item.classList.remove('is-open');
-    delete item.dataset.locked;
-    var btn = item.querySelector('.nav-btn');
-    if (btn) btn.setAttribute('aria-expanded', 'false');
-  }
-
-  function closeAll() {
-    clearTimeout(hoverTimer);
-    document.querySelectorAll('.nav-item.has-dropdown').forEach(closeItem);
+  function clearAllLocks() {
+    document.querySelectorAll('.nav-item.has-dropdown').forEach(function (item) {
+      delete item.dataset.locked;
+      item.classList.remove('is-locked');
+      var btn = item.querySelector('.nav-btn');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    });
   }
 
   if (document.readyState === 'loading') {
