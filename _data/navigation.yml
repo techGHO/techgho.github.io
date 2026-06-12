@@ -1,5 +1,5 @@
 main:
-  - title: "WEB/WAS"
+  - title: "WAS"
     url: "#"
     children:
       - title: "WebLogic"
@@ -8,6 +8,9 @@ main:
         url: /jboss/
       - title: "Tomcat"
         url: /tomcat/
+  - title: "WEB"
+    url: "#"
+    children:
       - title: "Apache"
         url: /apache/
       - title: "OHS"

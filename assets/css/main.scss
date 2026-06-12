@@ -940,6 +940,18 @@ body {
   border: 1px solid rgba(22,163,74,0.28);
 }
 
+.tg-pcard__badge--was {
+  background: rgba(239,68,68,0.20);
+  color: #fca5a5;
+  border: 1px solid rgba(239,68,68,0.30);
+}
+
+.tg-pcard__badge--web {
+  background: rgba(249,115,22,0.20);
+  color: #fdba74;
+  border: 1px solid rgba(249,115,22,0.30);
+}
+
 .tg-pcard__title {
   font-size: 0.9rem;
   font-weight: 700;
